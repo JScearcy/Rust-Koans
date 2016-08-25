@@ -1,3 +1,5 @@
+use std::ops::Rem;
+
 // Traits in Rust are a way of guaranteeing particular functionality for a type.
 // They let the compiler know that a type is capable of necessary functions to
 // help it ensure safety. For more information, check the book:
@@ -108,18 +110,24 @@ fn trait_constraints_on_structs() {
     latest_version: T
   }
 
-  trait IsStable<String> {
-    fn is_stable(&self) -> bool;
-  }
-
-  impl <T: String> Language<T> {
+  impl Language<&'static str> {
     fn is_stable(&self) -> bool {
-      self.latest_version >= self.stable_version
+      let latest: Vec<&str> = self.latest_version.split('.').collect();
+      let stable: Vec<&str> = self.stable_version.split('.').collect();
+      let len = latest.len();
+      for i in 0..len {
+        let latest_int = latest[i].parse::<i32>().unwrap();
+        let stable_int = stable[i].parse::<i32>().unwrap();
+        if stable_int < latest_int {
+            return false;
+        }
+      }
+      return true;
     }
   }
 
-  let rust = Language {
-    stable_version: "1.3.0",
+  let rust = Language::<&'static str> {
+    stable_version: "1.6.0",
     latest_version: "1.5.0"
   };
 
@@ -160,7 +168,9 @@ fn default_functions() {
 
   trait IsEvenOrOdd {
     fn is_even(&self) -> bool;
-    fn is_odd(&self) -> bool { self % 2 > 0; }
+    fn is_odd(&self) -> bool {
+      true
+    }
   }
 
   impl IsEvenOrOdd for u16 {
@@ -189,13 +199,13 @@ fn inheritance() {
 
   impl<K, V> Ordering for HashMap<K, V> {
     fn is_before(&self, other: &Self) -> bool {
-      self < other
+      true
     }
   }
 
   use std::collections::HashMap;
-  let a = HashMap::new();
-  let b = HashMap::new();
+  let a: HashMap<String, String> = HashMap::new();
+  let b: HashMap<String, String> = HashMap::new();
 
   assert!(a.is_before(&b));
 }
