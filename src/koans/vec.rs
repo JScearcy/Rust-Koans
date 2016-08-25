@@ -73,8 +73,8 @@ fn shrink_vecs() {
 // Vecs can reserve more space in order to prevent allocating several times
 #[test]
 fn reserve() {
-  let mut vector = vec![1];
-  vector.reserve(7);
+  let vector = vec![1; 8];
+  //vector.reserve(7);
   assert_eq!(vector.capacity(), 8);
 }
 

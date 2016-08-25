@@ -32,7 +32,7 @@ fn brackets() {
   map.insert("iPhone", "Apple");
   map.insert("Galaxy", "Samsung");
   assert_eq!(map[&"iPhone"], "Apple");
-  assert_eq!(map[&"Galaxy", "Samsung");
+  assert_eq!(map[&"Galaxy"], "Samsung");
 }
 
 // Keys in HashMaps will always be unique
@@ -74,7 +74,7 @@ fn just_the_values() {
   map.insert("Red", "Fish");
   map.insert("Blue", "Fish");
   for num in map.values() {
-    assert_eq!(num, "Fish");
+    assert_eq!(num, &"Fish");
   }
 }
 
@@ -86,7 +86,8 @@ fn iterating() {
   map.insert(2, 4);
   map.insert(3, 9);
   for (key, value) in map.iter() {
-    assert_eq!((&key * &key), value);
+    let own_key = key * key;
+    assert_eq!(&own_key, value);
   }
 }
 
@@ -98,7 +99,8 @@ fn iterating_2() {
   map.insert(2, 4);
   map.insert(3, 9);
   for (key, value) in &map {
-    assert_eq!((key * key), value);
+    let own_key = key * key;
+    assert_eq!(&own_key, value);
   }
 }
 

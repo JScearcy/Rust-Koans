@@ -57,7 +57,10 @@ fn revoking_mutability() {
 
   let rust = rust;
 
+  let mut rust = rust;
   rust.version = "1.5.0";
+
+  let rust = rust;
 
   assert_eq!(rust.version, "1.5.0");
 }
@@ -76,6 +79,6 @@ fn dot_merging() {
 
   let rich = Account { balance: 1000000.00, .. broke };
 
-  assert_eq!(rich.holder, __);
-  assert_eq!(rich.balance, __);
+  assert_eq!(rich.holder, "Morgan Stanley");
+  assert_eq!(rich.balance, 1000000.00);
 }
